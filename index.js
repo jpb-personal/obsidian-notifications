@@ -17,35 +17,38 @@ const connectDB = async () => {
     }
 }
 
-app.get('/', (req, res) => {
-    res.send({text: 'test'});
-});
 
-
-app.get('/add-message', async (req, res) => {
+app.post('/add-message', async (req, res) => {
     try {
-        await Message.insertMany([
-            {
-                text: "This is a test",
-                scheduled_time: new Date(),
-            },
-            {
-                text: "This is another test",
-                scheduled_time: new Date(),
-            }
-        ])
+        const { text, scheduled_time } = req.body;
+
+        if (!text || !scheduled_time) {
+            return res.status(400).json({ error: 'Text and scheduled_time are required' });
+        }
+
+        const newMessage = new Message({
+            text,
+            scheduled_time: new Date(scheduled_time),
+        })
+
+        newMessage.save();
+
+        res.status(201).json({ message: 'Message added to the database successfully' });
     } catch (error) {
-        console.log("err" + error);
+        console.log("ERROR | " + error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 })
+
 
 app.get('/messages', async (req,res) => {
     const message = await Message.find();
 
     if (message) {
         res.json(message);
+        res.send();
     } else {
-        res.send("Something went wrong.");
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
