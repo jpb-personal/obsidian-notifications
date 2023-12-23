@@ -37,7 +37,7 @@ app.post('/add-message', async (req, res) => {
             scheduled_time: new Date(scheduled_time),
         })
 
-        newMessage.save();
+        await newMessage.save();
 
         res.status(201).json({ message: 'Message added to the database successfully' });
     } catch (error) {
