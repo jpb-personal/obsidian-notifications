@@ -9,6 +9,13 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 
+app.options('/add-message', cors({
+    origin: 'app://obsidian.md',
+    methods: 'POST',
+    allowedHeaders: 'Content-Type',
+}));
+
+
 mongoose.set('strictQuery', false);
 const connectDB = async () => {
     try {
@@ -24,6 +31,7 @@ const connectDB = async () => {
 app.get('/', (req, res) => {
     res.send({text: 'test'});
 });
+
 
 
 app.post('/add-message', async (req, res) => {
