@@ -32,12 +32,10 @@ app.post('/add-message', async (req, res) => {
             return res.status(400).json({ error: 'Text and scheduled_time are required' });
         }
 
-        const newMessage = new Message({
+        await Message.insertMany([{
             text,
             scheduled_time: new Date(scheduled_time),
-        })
-
-        await newMessage.save();
+        }])
 
         res.status(201).json({ message: 'Message added to the database successfully' });
     } catch (error) {
