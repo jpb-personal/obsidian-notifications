@@ -1,10 +1,13 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const Message = require('./models/message.js')
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(cors());
 
 mongoose.set('strictQuery', false);
 const connectDB = async () => {
@@ -17,15 +20,11 @@ const connectDB = async () => {
     }
 }
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-});
 
 app.get('/', (req, res) => {
     res.send({text: 'test'});
 });
+
 
 app.post('/add-message', async (req, res) => {
     try {
@@ -49,6 +48,7 @@ app.post('/add-message', async (req, res) => {
     }
 });
 
+
 app.get('/messages', async (req,res) => {
     const message = await Message.find();
 
@@ -58,6 +58,7 @@ app.get('/messages', async (req,res) => {
         res.send("Something went wrong.");
     }
 });
+
 
 connectDB().then(() => {
     app.listen(PORT, () => {
