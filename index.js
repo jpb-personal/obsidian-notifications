@@ -8,6 +8,7 @@ const app  = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
+app.use(express.json());
 
 app.options('/add-message', (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', 'app://obsidian.md');
@@ -36,6 +37,7 @@ app.get('/', (req, res) => {
 
 app.post('/add-message', async (req, res) => {
     try {
+        console.log('Request payload: ', req.body);
         const { text, scheduled_time } = req.body;
 
         if (!text || !scheduled_time) {
