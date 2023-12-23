@@ -9,12 +9,12 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 
-app.options('/add-message', cors({
-    origin: 'app://obsidian.md',
-    methods: 'POST',
-    allowedHeaders: 'Content-Type',
-}));
-
+app.options('/add-message', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', 'app://obsidian.md');
+    res.setHeader('Access-Control-Allow-Methods', 'POST');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(200).end();
+});
 
 mongoose.set('strictQuery', false);
 const connectDB = async () => {
