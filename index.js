@@ -147,7 +147,7 @@ function timeDif(date1, date2) {
 }
 
 
-app.put('/check-messages', async (req, res) => {
+app.post('/check-messages', async (req, res) => {
     try {
         console.log("Checking messages");
         const now = new Date();
