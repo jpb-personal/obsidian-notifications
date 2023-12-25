@@ -10,7 +10,11 @@ const MessageSchema = new Schema({
     scheduled_time: {
         type: Date,
         required: true,
-    }
+    },
+    type: {
+        type: String,
+        required: true,
+    } 
 });
 
 module.exports = mongoose.model('Message', MessageSchema);
