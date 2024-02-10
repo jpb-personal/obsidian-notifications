@@ -10,7 +10,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const TelegramBot = require('node-telegram-bot-api');
 
-const helpers = require('./helpers.js')
+import {timeDif} from './helpers.js';
 
 
 // Initailize app
@@ -191,7 +191,7 @@ app.post('/check-messages', async (_req, res) => {
 
         // have the telegram bot send each message
         messages.forEach(async (entry) => {
-            const remaining_time = helpers.timeDif(new Date(), entry.scheduled_time);
+            const remaining_time = timeDif(new Date(), entry.scheduled_time);
             const text = entry.text.replace("//time//", remaining_time + ' min');
             bot.sendMessage(process.env.CHAT_ID, text, { parse_mode: 'HTML'});
         })
